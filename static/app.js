@@ -1,5 +1,6 @@
 const modelSelect = document.querySelector("#modelSelect");
 const systemPrompt = document.querySelector("#systemPrompt");
+const storyIdInput = document.querySelector("#storyIdInput");
 const messagesEl = document.querySelector("#messages");
 const chatForm = document.querySelector("#chatForm");
 const messageInput = document.querySelector("#messageInput");
@@ -7,12 +8,20 @@ const sendButton = document.querySelector("#sendButton");
 const statusText = document.querySelector("#statusText");
 
 const defaultSystem = "You are a helpful, concise assistant.";
+const defaultStoryId = "default-story";
 const state = {
   messages: [],
   sending: false,
 };
 
 systemPrompt.value = defaultSystem;
+storyIdInput.value = localStorage.getItem("storyId") || defaultStoryId;
+
+storyIdInput.addEventListener("change", () => {
+  const value = storyIdInput.value.trim() || defaultStoryId;
+  storyIdInput.value = value;
+  localStorage.setItem("storyId", value);
+});
 
 function setStatus(text) {
   statusText.textContent = text;
@@ -54,6 +63,7 @@ function setSending(sending) {
   messageInput.disabled = sending;
   modelSelect.disabled = sending;
   systemPrompt.disabled = sending;
+  storyIdInput.disabled = sending;
 }
 
 async function loadModels() {
@@ -125,6 +135,7 @@ async function sendMessage(event) {
       body: JSON.stringify({
         model: modelSelect.value,
         system: systemPrompt.value.trim() || defaultSystem,
+        conversation_id: storyIdInput.value.trim() || defaultStoryId,
         messages: state.messages.filter((message) => message.role === "user" || message.role === "assistant").slice(0, -1),
       }),
     });
