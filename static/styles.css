@@ -97,6 +97,7 @@ body {
 }
 
 select,
+input,
 textarea,
 button {
   width: 100%;
@@ -106,6 +107,7 @@ button {
 }
 
 select,
+input,
 textarea {
   padding: 14px 16px;
   background: var(--panel-strong);
