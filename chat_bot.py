@@ -4,15 +4,9 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
-import urllib.error
-import urllib.request
 
-
-DEFAULT_HOST = "http://192.168.56.1:11434"
-DEFAULT_MODEL = "qwen2.5:7b"
-DEFAULT_SYSTEM = "You are a helpful, concise assistant."
+from ollama_client import DEFAULT_HOST, DEFAULT_MODEL, DEFAULT_SYSTEM, OllamaError, chat
 
 
 def parse_args() -> argparse.Namespace:
@@ -33,39 +27,6 @@ def parse_args() -> argparse.Namespace:
         help="Optional system prompt",
     )
     return parser.parse_args()
-
-
-def chat(host: str, model: str, messages: list[dict[str, str]]) -> str:
-    payload = json.dumps(
-        {
-            "model": model,
-            "messages": messages,
-            "stream": False,
-        }
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        f"{host.rstrip('/')}/api/chat",
-        data=payload,
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
-
-    try:
-        with urllib.request.urlopen(request, timeout=300) as response:
-            body = json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as exc:
-        details = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"HTTP {exc.code}: {details}") from exc
-    except urllib.error.URLError as exc:
-        raise RuntimeError(f"Could not reach Ollama at {host}: {exc.reason}") from exc
-
-    message = body.get("message", {})
-    content = message.get("content")
-    if not content:
-        raise RuntimeError(f"Unexpected Ollama response: {body}")
-    return content
-
-
 def main() -> int:
     args = parse_args()
     messages: list[dict[str, str]] = [{"role": "system", "content": args.system}]
@@ -91,7 +52,7 @@ def main() -> int:
 
         try:
             answer = chat(args.host, args.model, messages)
-        except RuntimeError as exc:
+        except OllamaError as exc:
             print(f"bot> error: {exc}", file=sys.stderr)
             messages.pop()
             continue

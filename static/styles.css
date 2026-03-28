@@ -1,0 +1,230 @@
+:root {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --panel: rgba(255, 250, 242, 0.88);
+  --panel-strong: #fffdf8;
+  --line: rgba(75, 54, 33, 0.14);
+  --text: #2a2118;
+  --muted: #6c5b4c;
+  --accent: #b85c38;
+  --accent-strong: #8c3d1f;
+  --user: #f7dcc8;
+  --bot: #f1eadf;
+  --shadow: 0 24px 60px rgba(77, 48, 24, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(184, 92, 56, 0.16), transparent 30%),
+    linear-gradient(135deg, #efe4d2, #f9f4ec 55%, #ead8c2);
+}
+
+.shell {
+  width: min(1120px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 40px 0 32px;
+}
+
+.hero {
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  line-height: 0.95;
+  max-width: 10ch;
+}
+
+.lede {
+  margin: 16px 0 0;
+  max-width: 50rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: 72vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  padding: 24px;
+  border-right: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent);
+}
+
+.field,
+.status-block {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.field span,
+.status-block span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+select,
+textarea,
+button {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  font: inherit;
+}
+
+select,
+textarea {
+  padding: 14px 16px;
+  background: var(--panel-strong);
+  color: var(--text);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.status-block p {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(184, 92, 56, 0.08);
+  color: var(--muted);
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 72vh;
+}
+
+.messages {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.empty {
+  height: 100%;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.message {
+  max-width: min(720px, 100%);
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+}
+
+.message-user {
+  margin-left: auto;
+  background: var(--user);
+}
+
+.message-assistant {
+  background: var(--bot);
+}
+
+.message-role {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.message-body {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.composer {
+  padding: 20px 24px 24px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.28));
+}
+
+#messageInput {
+  min-height: 92px;
+  margin-bottom: 12px;
+}
+
+button {
+  padding: 14px 18px;
+  border: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #fff8f2;
+  cursor: pointer;
+  transition: transform 140ms ease, opacity 140ms ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 860px) {
+  .shell {
+    width: min(100vw - 20px, 1120px);
+    padding-top: 20px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .chat-panel,
+  .layout {
+    min-height: auto;
+  }
+}

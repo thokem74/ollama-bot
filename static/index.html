@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ollama Chat Bot</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Local Ollama Chat</p>
+        <h1>Small web UI, fast feedback.</h1>
+        <p class="lede">
+          Chat with your Ollama server from the browser, switch models, and tune the system prompt
+          without leaving the page.
+        </p>
+      </section>
+
+      <section class="panel layout">
+        <aside class="sidebar">
+          <label class="field">
+            <span>Model</span>
+            <select id="modelSelect"></select>
+          </label>
+
+          <label class="field">
+            <span>System Prompt</span>
+            <textarea id="systemPrompt" rows="8"></textarea>
+          </label>
+
+          <div class="status-block">
+            <span>Status</span>
+            <p id="statusText">Loading models...</p>
+          </div>
+        </aside>
+
+        <section class="chat-panel">
+          <div id="messages" class="messages"></div>
+
+          <form id="chatForm" class="composer">
+            <textarea
+              id="messageInput"
+              rows="3"
+              placeholder="Ask something..."
+              required
+            ></textarea>
+            <button id="sendButton" type="submit">Send</button>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>
